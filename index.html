@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div>
+        <h1>Pomodoro Timer</h1>
+        <form id="settings-form">
+            <label for="focus-duration">Focus Duration (minutes):</label>
+            <input type="number" id="focus-duration" value="25">
+            <label for="short-break-duration">Short Break Duration (minutes):</label>
+            <input type="number" id="short-break-duration" value="5">
+            <label for="long-break-duration">Long Break Duration (minutes):</label>
+            <input type="number" id="long-break-duration" value="15">
+            <label for="pomodoro-cycles">Pomodoro Cycles:</label>
+            <input type="number" id="pomodoro-cycles" value="4">
+            <button type="button" onclick="startTimer()">Start</button>
+            <button type="button" id="pause-button" onclick="pauseTimer()" style="display: none;">Pause</button>
+            <button type="button" id="quit-button" onclick="quitTimer()" style="display: none;">Quit</button>
+        </form>
+        <div id="timer-display">
+            <h2 id="timer">00:00</h2>
+        </div>
+        <button type="button" id="start-sound" onclick="startRainSound()">Start Rain🌧️</button>
+        <button type="button" id="stop-sound" onclick="stopRainSound()">Stop Rain☔️</button>
+        <div id="volume-container">
+            <label class="volume-label" for="volume-control">Volume:</label>
+            <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.5" onchange="adjustVolume()">
+        </div>
+    </div>
+
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+    <script>
+        let player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0', // Hidden player
+                width: '0',
+                videoId: 'aUm_OogP1nM', // YouTube video ID
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'aUm_OogP1nM' // Required for looping
+                }
+            });
+        }
+
+        function startRainSound() {
+            player.playVideo();
+        }
+
+        function stopRainSound() {
+            player.stopVideo();
+        }
+
+        function adjustVolume() {
+            const volume = document.getElementById('volume-control').value;
+            player.setVolume(volume * 100); // Volume value should be between 0 and 100
+        }
+    </script>
+
+    <!-- YouTube Player Container -->
+    <div id="youtube-player"></div>
+</body>
+
+</html>
